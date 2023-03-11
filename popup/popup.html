@@ -1,9 +1,28 @@
 <html>
+    <button>X</button>
     <h1>Flashcards</h1>
-    <h2 id="FlashcardQuestion"></h2>
+    <p>9flashcards remaining</p>
+    <h2 id="FlashcardQuestion">Question 1</h2>
     <button id="RefreshQuestion">Redo</button>
     <!-- Below should be checkboxes probably -->
-    <button id="openText" class="questionOptions"></button>
-    <button id="MCQ" class="questionOptions"></button>
-    <button id="trueFalse" class="questionOptions"></button>
+    <fieldset>
+        <legend>Select a Q type</legend>
+        <div>
+            <input type="radio" id="openText" name="questionType" value="openText" checked />
+            <label for="openText">open question</label> 
+        </div>
+        <div>
+            <input type="radio" id="multipleChoice" name="questionType" value="MCQ" />
+            <label for="multipleChoice">MCQ</label>
+        </div>
+        <div>
+            <input type="radio" id="trueFalse" name="questionType" value="trueFalse" />
+            <label for="trueFalse">true or false</label>
+        </div>
+        <div>
+            <input type="radio" id="cloze" name="questionType" value="cloze" />
+            <label for="cloze">cloze</label>
+        </div>
+    </fieldset>
+        
 </html>

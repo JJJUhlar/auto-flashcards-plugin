@@ -4,6 +4,9 @@ chrome.runtime.onInstalled.addListener(() => {
     });
 });
 
+// I will use a background service worker here to 
+// open the flashcard queue while navigating to a new tab and to throttle loading
+
 const extensions = 'https://developer.chrome.com/docs/extensions'
 const webstore = 'https://developer.chrome.com/docs/webstore'
 
