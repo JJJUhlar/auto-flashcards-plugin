@@ -21,7 +21,7 @@
         },
         "default_popup": "popup/popup.html"
     },
-    "permissions": ["activeTab", "scripting", "storage"],
+    "permissions": ["activeTab", "scripting", "storage", "contextMenus"],
     "commands": {
         "_execute_action":{
             "suggested_key": {
