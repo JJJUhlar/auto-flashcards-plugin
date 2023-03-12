@@ -1,29 +1,59 @@
 chrome.runtime.onInstalled.addListener(() => {
-    chrome.action.setBadgeText({
-      text: "ON",
-    });
+
+  chrome.storage.session.set({inputCards: []})
+    .then(()=>{
+      console.log("Storage set to " + [])
+    })
+
+  chrome.storage.session.get(["inputCards"])
+    .then((result) => {
+      console.log("Storage is currently" + result)
+    })
+  
+
+  chrome.contextMenus.create({
+    title: "make flashcard for '%s'",
+    contexts: ['page','selection'],
+    type: "normal",
+    visible: true,
+    enabled: true,
+    id: "flashcardContextMenu"
+  })
 });
 
-function selectGetter(info,tab) {
-  console.log(info.selectionText)
-  console.log(tab.url)
-  chrome.tabs.create({
-    url: `http://www.google.com/search?="${info.selectionText}"`
-  })
-}
+const input = {
 
-chrome.contextMenus.create({
-  title: "make flashcard for '%s'",
-  contexts: ['page','selection'],
-  type: "normal",
-  visible: true,
-  enabled: true,
-  id: "flashcardContextMenu"
-})
+}
 
 chrome.contextMenus.onClicked.addListener(
   selectGetter
 )
+
+function selectGetter(info,tab) {
+  console.log(info.selectionText)
+  console.log(tab.url)
+  console.log(typeof info.selectionText)
+  // chrome.tabs.create({
+  //   url: `http://www.google.com/search?="${info.selectionText}"`
+  // })
+
+  input["textInput"] = info.selectionText;
+  input["textOrigin"] = tab.url;
+
+  chrome.storage.session.set({inputCards: input})
+    .then(()=>{
+      console.log(`Storage set to ${input}`)
+    })
+  
+  chrome.storage.session.get(["inputCards"])
+    .then((result) => {
+      console.log(result.textInput, "<")
+    })
+}
+
+
+
+
 
 // I will use a background service worker here to 
 // open the flashcard queue while navigating to a new tab and to throttle loading
