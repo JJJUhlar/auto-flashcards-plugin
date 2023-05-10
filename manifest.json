@@ -22,7 +22,15 @@
         },
         "default_popup": "popup/popup.html"
     },
-    "permissions": ["activeTab", "scripting", "storage", "contextMenus"],
+    "permissions": [
+        "activeTab", 
+        "scripting", 
+        "storage", 
+        "contextMenus"
+    ],
+    "host_permissions": [
+        "http://127.0.0.1:5000/*"
+    ],
     "commands": {
         "_execute_action":{
             "suggested_key": {
