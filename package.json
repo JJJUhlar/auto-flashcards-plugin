@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "chrome-types": "^0.1.178",
+    "chrome-types": "^0.1.192",
     "node": "^20.1.0"
   }
 }
