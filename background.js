@@ -1,14 +1,5 @@
 chrome.runtime.onInstalled.addListener(() => {
 
-  chrome.storage.session.set({inputCards: []})
-    .then(()=>{
-      console.log("Storage set to " + [])
-    })
-
-  chrome.storage.session.get(["inputCards"])
-    .then((result) => {
-      console.log("Storage is currently" + result)
-    })
   
   chrome.contextMenus.create({
     title: "make flashcard for '%s'",
@@ -25,9 +16,13 @@ chrome.contextMenus.onClicked.addListener(
 )
 
 function selectGetter(info,tab) {
-  console.log(info.selectionText)
-  console.log(tab.url)
-  
+
+  chrome.action.setPopup({
+    tabId: tab.id,
+    popup: "popup/popup.html"
+  })
+
+
   const input = {
     "text": info.selectionText,
     "origin": tab.url
@@ -35,7 +30,7 @@ function selectGetter(info,tab) {
 
   chrome.storage.session.set({"input": input})
     .then(()=>{
-      console.log(`Storage set to ${input}`)
+      console.log(`${input.text}, ${input.url} saved to storage`)
     })
   
   chrome.storage.session.get("input")
