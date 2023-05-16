@@ -23,7 +23,7 @@ function selectGetter(info,tab) {
   }
 
   if (input.text.length > 20 && input.text.length < 2000) {
-    fetch(`http://127.0.0.1:5000/flashcards`, {
+    fetch(`http://127.0.0.1:8080/flashcards`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -42,9 +42,10 @@ function selectGetter(info,tab) {
         chrome.storage.session.set({"flashcards": flashcards})
       })
       .catch((err)=>{
-        alert("too long", input.text.length)
         console.log('error!:', err)
       })
+    } else {
+      console.log("wrong input length:", input.text.length)
     }
 
 

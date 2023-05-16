@@ -6,8 +6,17 @@ const get = document.getElementById('getButton')
 const save = document.getElementById('saveCardsButton')
 const next = document.getElementById('nextCardButton')
 const previous = document.getElementById('previousCardButton')
+let currentCardIndex = 0;
 
-let new_cards = [];
+updateCardNum = () => {
+  chrome.storage.session.get("flashcards")
+    .then(({flashcards}) => {
+      numCards.innerText = `${currentCardIndex + 1} / ${flashcards.length}`
+    })
+    .catch((err)=>{ 
+      console.log("error:", err)
+    })
+}
 
 getCards = () => {
   answer.value = "loading..."
@@ -18,14 +27,13 @@ getCards = () => {
       console.log(flashcards)
       answer.value = flashcards[0].front
       question.value = flashcards[0].back
-      numCards.innerText = flashcards.length
+      updateCardNum()
     })
     .catch((err)=>{ 
       console.log("error:", err)
     }) 
 }
 
-let currentCardIndex = 0;
 changeCard = (e) => {
   let direction = 1;
   if (e.target.id === "previousCardButton") {
@@ -40,31 +48,30 @@ changeCard = (e) => {
         currentCardIndex += direction;
         answer.value = flashcards[currentCardIndex].front
         question.value = flashcards[currentCardIndex].back
+        updateCardNum()
       } else {
         console.log("no cards")
       }
-    })  
+    })
 }
 
 sendCards = () => {
-  chrome.storage.session.get(["new_cards"])
-    .then(({new_cards}) => {
-      console.log(new_cards)
-      fetch(`http://127.0.0.1:5000/new_cards`, {
+  chrome.storage.session.get("flashcards")
+    .then(({flashcards}) => {
+      
+      fetch(`http://127.0.0.1:8080/new_cards`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          "new_cards": new_cards.flashcards
-        })
-        .then((res)=>{  
-          console.log(res)
-        })  
-        .catch((err)=>{
-          console.log("error:", err)
+          "flashcards": flashcards
         })
       })
+      .then((res)=>{  
+        alert("cards sent")
+        console.log("cards sent", res.statusText)
+      })  
       .catch((err)=>{
         console.log("error:", err)
       })
