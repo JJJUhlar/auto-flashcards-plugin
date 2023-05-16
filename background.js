@@ -17,16 +17,38 @@ chrome.contextMenus.onClicked.addListener(
 
 function selectGetter(info,tab) {
 
-  chrome.action.setPopup({
-    tabId: tab.id,
-    popup: "popup/popup.html"
-  })
-
-
   const input = {
     "text": info.selectionText,
     "origin": tab.url
   }
+
+  if (input.text.length > 20 && input.text.length < 2000) {
+    fetch(`http://127.0.0.1:5000/flashcards`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        },
+      body: JSON.stringify({
+        "url": String(input.origin),
+        "type": "default",
+        "text": String(input.text),
+        "model": "text-davinci-003"
+        })
+      })
+      .then((res)=>{
+        return res.json()
+      })
+      .then(({flashcards})=>{
+        chrome.storage.session.set({"flashcards": flashcards})
+      })
+      .catch((err)=>{
+        alert("too long", input.text.length)
+        console.log('error!:', err)
+      })
+    }
+
+
+
 
   chrome.storage.session.set({"input": input})
     .then(()=>{
