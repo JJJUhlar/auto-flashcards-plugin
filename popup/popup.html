@@ -1,50 +1,37 @@
 <html>
     <script defer src="popup.js"></script>
-    <button>X</button>
-    <button>Highlight Mode</button>
-    <h1>Flashcards</h1>
-    <p>9flashcards remaining</p>
+
+    <section class="nav">
+        <h1>Flashcards</h1>
+        <button id="create-panel-button">Create</button>
+        <button id="review-panel-button">Review</button>
+        <button id="settings-panel-button">Settings</button>4
+    </section>
+
+  
+    <section id="create-panel" hidden>
+
+        <h3 id="numCards"></h3>
+        <fieldset>
+            <div>
+                <label for="flashcardPrompt">Question</label>
+                <input id="flashcardPrompt" />
+            </div>
+            <div>
+                <label for="flashcardAnswer">Answer</label>
+                <input id="flashcardAnswer" value="blah blah blah" />
+            </div>
+        </fieldset>
+        <button id="nextCardButton" >next</button>
+        <button id="previousCardButton" >previous</button>
+        <button id="getButton" >Create Cards</button>
+        <button id="saveCardsButton" >Save Cards</button>
+        <button id="RefreshQuestion">Regen Card</button>
+        <!-- <button id="RefreshQuestion">Review Page</button> -->
+    </section>
     
-    <h3 id="numCards">0</h3>
-    <fieldset>
-        <div>
-            <label for="flashcardPrompt">Question</label>
-            <input id="flashcardPrompt" />
-        </div>
-        <div>
-            <label for="flashcardAnswer">Answer</label>
-            <input id="flashcardAnswer" value="blah blah blah" />
-        </div>
-    </fieldset>
-        
-    <button id="RefreshQuestion">Regen Question</button>
-    <button id="RefreshQuestion">Review Page</button>
-    <button id="getButton" >Create Cards</button>
-    <button id="nextCardButton" >next</button>
-    <button id="previousCardButton" >previous</button>
-    <button id="saveCardsButton" >save</button>
-    <button id="getDueCardsButton" >Get Due Cards</button>
-    <!-- Below should be checkboxes probably -->
-    <fieldset>
-        <legend>Select a Q type</legend>
-        <div>
-            <input type="radio" id="openText" name="questionType" value="openText" checked />
-            <label for="openText">open question</label> 
-        </div>
-        <div>
-            <input type="radio" id="multipleChoice" name="questionType" value="MCQ" />
-            <label for="multipleChoice">MCQ</label>
-        </div>
-        <div>
-            <input type="radio" id="trueFalse" name="questionType" value="trueFalse" />
-            <label for="trueFalse">true or false</label>
-        </div>
-        <div>
-            <input type="radio" id="cloze" name="questionType" value="cloze" />
-            <label for="cloze">cloze</label>
-        </div>
-    </fieldset>
-    <section>
+    <section id="review-panel" hidden>
+        <button id="getDueCardsButton" >Get Due Cards</button>
         <h2>Review</h2>
         <div>
             <h4>1 / 4</h4>
@@ -55,8 +42,13 @@
             <button>Dunno</button>
             <button>Edit / Delete</button>
         </div>
+
     </section>
-    <section>
+
+    <!-- Below should be checkboxes probably -->
+    
+    <section id="settings-panel" >
+        <h1>Settings</h1>
         <h2>Login</h2>
         <fieldset>
             <label for="username">Username</label>
@@ -64,12 +56,31 @@
             <label for="password">Password</label>
             <input id="password" />
         </fieldset>
-    </section>
-    <section>
-        <h2>Settings</h2>
         <fieldset>
             <label for="api_key">OpenAI Api Key</label>
             <input id="api_key" />
         </fieldset>
     </section>
 </html>
+
+<!-- 
+<fieldset>
+    <legend>Select a Q type</legend>
+    <div>
+        <input type="radio" id="openText" name="questionType" value="openText" checked />
+        <label for="openText">open question</label> 
+    </div>
+    <div>
+        <input type="radio" id="multipleChoice" name="questionType" value="MCQ" />
+        <label for="multipleChoice">MCQ</label>
+    </div>
+    <div>
+        <input type="radio" id="trueFalse" name="questionType" value="trueFalse" />
+        <label for="trueFalse">true or false</label>
+    </div>
+    <div>
+        <input type="radio" id="cloze" name="questionType" value="cloze" />
+        <label for="cloze">cloze</label>
+    </div>
+</fieldset>
+ -->
