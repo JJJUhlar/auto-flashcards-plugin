@@ -3,7 +3,7 @@ const question = document.getElementById('flashcardAnswer')
 const answer = document.getElementById('flashcardPrompt')
 const numCards = document.getElementById('numCards')
 
-const get = document.getElementById('getButton')
+const create = document.getElementById('createButton')
 const save = document.getElementById('saveCardsButton')
 const next = document.getElementById('nextCardButton')
 const previous = document.getElementById('previousCardButton')
@@ -17,8 +17,17 @@ const reviewPanel = document.getElementById('review-panel')
 const createPanel = document.getElementById('create-panel')
 const settingsPanel = document.getElementById('settings-panel')
 
-let currentCardIndex = 0;
+const reviewCardPrompt = document.getElementById('reviewCardPrompt')
+const reviewCardAnswer = document.getElementById('reviewCardAnswer')
+const numReviewCards = document.getElementById('numReviewCards')
+const easy_btn = document.getElementById('easy_btn')
+const dunno_btn = document.getElementById('dunno_btn')
+const delete_btn = document.getElementById('delete_btn')
+const show_answer_btn = document.getElementById('show_answer_btn')
 
+
+let currentCardIndex = 0;
+let currentReviewCardsIndex = 0;
 
 const panels_lookup = {
 	"review-panel-button": reviewPanel,
@@ -29,24 +38,58 @@ const panel_buttons = Object.keys(panels_lookup)
 
 changePanel = (e) => {
 	for (let panel_button of panel_buttons) {
-
 		if (panel_button === e.target.id) {
 			panels_lookup[e.target.id]['hidden'] = false
 		} else {
 			panels_lookup[panel_button]['hidden'] = true
 		}
-
 	}
-
-
-	// for (panel of panel_buttons) {
-		
-	// 	if (e.target.id === panel) {
-	// 		panels_lookup[e.target.id].hidden = false
-	// 	}
-	// 	panels_lookup[panel].hidden = true;
-	// }
 }
+
+
+
+easyCard = () => {
+	
+	chrome.storage.session.get("due_cards")
+		.then(({due_cards}) => {
+			console.log(due_cards)
+			if (currentReviewCardsIndex < due_cards.length) {
+				// send update card as easy
+				reviewCardPrompt.innerText = due_cards[currentCardIndex].card_front;
+				reviewCardAnswer.innerText = due_cards[currentCardIndex].card_back;
+				currentCardIndex += 1;
+				numReviewCards.innerText = `${due_cards.length - currentCardIndex}`;
+				reviewCardAnswer.hidden = true;
+			} else {
+				console.log("no cards left: ", due_cards.length)
+				console.log(due_cards)
+			}
+		})
+}
+
+dunnoCard = () => {
+	chrome.storage.session.get('due_cards')
+		.then(({due_cards}) => {
+			console.log(due_cards[currentCardIndex].origin)
+			chrome.tabs.create({
+				"url": due_cards[currentCardIndex].origin
+			})
+			if (currentReviewCardsIndex <= due_cards.length) {
+				reviewCardPrompt.innerText = due_cards[currentCardIndex].front;
+				reviewCardAnswer.innerText = due_cards[currentCardIndex].back;
+				currentCardIndex += 1;
+				numReviewCards.innerText = `${due_cards.length - currentCardIndex}`;
+			} else {
+				console.log("no cards left: ", due_cards.length)
+				console.log(due_cards)
+			}
+		})
+}
+
+deleteCard = () => {
+
+}
+
 
 updateCardNum = () => {
   chrome.storage.session.get("flashcards")
@@ -58,7 +101,7 @@ updateCardNum = () => {
 	})
 }
 
-getCards = () => {
+createCards = () => {
   answer.value = "loading..."
   question.value = "loading..."
 
@@ -74,7 +117,7 @@ getCards = () => {
 	}) 
 }
 
-changeCard = (e) => {
+changeNewCard = (e) => {
   let direction = 1;
   if (e.target.id === "previousCardButton") {
 	direction = -1;
@@ -82,7 +125,7 @@ changeCard = (e) => {
 	direction = 1;
   }
   
-  chrome.storage.session.get("flashcards")
+  chrome.storage.session.get("due_cards")
 	.then(({flashcards}) => {
 	  if (flashcards[currentCardIndex + direction] !== undefined) {
 		currentCardIndex += direction;
@@ -93,6 +136,10 @@ changeCard = (e) => {
 		console.log("no cards")
 	  }
 	})
+}
+
+showAnswer = () => {
+	reviewCardAnswer.hidden = false;
 }
 
 sendCards = () => {
@@ -127,10 +174,12 @@ getDueCards = () => {
   .then((res)=>{
 	return res.json()
   })
-  .then((data)=>{
-	console.log(data)
-	console.log(data.due_cards)
-	chrome.storage.session.set({"due_cards": data.due_cards})
+  .then(({due_cards})=>{
+	chrome.storage.session.set({"due_cards": due_cards}) 
+	console.log(due_cards)
+	reviewCardAnswer.innerText = due_cards[currentCardIndex].card_back
+	reviewCardPrompt.innerText = due_cards[currentCardIndex].card_front
+	numReviewCards.innerText = due_cards.length.toString()
   })
   .catch((err)=>{
 	console.log("error:", err)
@@ -179,12 +228,17 @@ deleteCard = (card_to_delete_id) => {
   })
 }
 
-get.addEventListener("click", getCards)
+create.addEventListener("click", createCards)
 save.addEventListener('click', sendCards)
-next.addEventListener("click", changeCard)
-previous.addEventListener("click", changeCard)
+next.addEventListener("click", changeNewCard)
+previous.addEventListener("click", changeNewCard)
 getDueCardsButton.addEventListener("click", getDueCards)
 
 reviewPanelButton.addEventListener("click", changePanel)
 createPanelButton.addEventListener("click", changePanel)
 settingsPanelButton.addEventListener("click", changePanel)
+
+easy_btn.addEventListener('click', easyCard)
+dunno_btn.addEventListener('click', dunnoCard)
+delete_btn.addEventListener('click', deleteCard)
+show_answer_btn.addEventListener('click', showAnswer)

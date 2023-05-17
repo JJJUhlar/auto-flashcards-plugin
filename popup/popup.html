@@ -1,46 +1,53 @@
 <html>
+    <head>
+        <link href="popup.css" rel="stylesheet" />
+    </head>
     <script defer src="popup.js"></script>
 
     <section class="nav">
         <h1>Flashcards</h1>
         <button id="create-panel-button">Create</button>
         <button id="review-panel-button">Review</button>
-        <button id="settings-panel-button">Settings</button>4
+        <button id="settings-panel-button">Settings</button>
     </section>
 
   
     <section id="create-panel" hidden>
-
-        <h3 id="numCards"></h3>
+        <h2>Create Cards</h2>
         <fieldset>
             <div>
                 <label for="flashcardPrompt">Question</label>
-                <input id="flashcardPrompt" />
+                <input id="flashcardPrompt" placeholder="questions go here"/>
             </div>
             <div>
                 <label for="flashcardAnswer">Answer</label>
-                <input id="flashcardAnswer" value="blah blah blah" />
+                <input id="flashcardAnswer" placeholder="answers go here" />
             </div>
+            <h3 id="numCards"></h3>
         </fieldset>
-        <button id="nextCardButton" >next</button>
         <button id="previousCardButton" >previous</button>
-        <button id="getButton" >Create Cards</button>
+        <button id="nextCardButton" >next</button>
+        <button id="createButton" >Create Cards</button>
         <button id="saveCardsButton" >Save Cards</button>
         <button id="RefreshQuestion">Regen Card</button>
         <!-- <button id="RefreshQuestion">Review Page</button> -->
     </section>
     
     <section id="review-panel" hidden>
+        <h2>Review Cards</h2>
         <button id="getDueCardsButton" >Get Due Cards</button>
-        <h2>Review</h2>
         <div>
-            <h4>1 / 4</h4>
-            <h3>Question / Prompt</h3>
-            <h3>Answer</h3>
-            <button>Easy</button>
-            <button>Good</button>
-            <button>Dunno</button>
-            <button>Edit / Delete</button>
+            <fieldset>
+                <h3 >Question / Prompt</h3>
+                <p id="reviewCardPrompt"></p>
+                <h3 >Answer</h3>
+                <p id="reviewCardAnswer" hidden></p>
+                <button id="show_answer_btn">reveal answer</button>
+                <h4 id="numReviewCards"></h4>
+                <button id="easy_btn">Easy</button>
+                <button id="dunno_btn">Dunno</button>
+                <button id="delete_btn">Edit / Delete</button>
+            </fieldset>
         </div>
 
     </section>
@@ -48,9 +55,9 @@
     <!-- Below should be checkboxes probably -->
     
     <section id="settings-panel" >
-        <h1>Settings</h1>
-        <h2>Login</h2>
+        <h2>Settings</h2>
         <fieldset>
+            <h3>Login</h3>
             <label for="username">Username</label>
             <input id="username" />
             <label for="password">Password</label>
