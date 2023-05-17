@@ -7,7 +7,6 @@ const create = document.getElementById('createButton')
 const save = document.getElementById('saveCardsButton')
 const next = document.getElementById('nextCardButton')
 const previous = document.getElementById('previousCardButton')
-const getDueCardsButton = document.getElementById('getDueCardsButton')
 
 const reviewPanelButton = document.getElementById('review-panel-button')
 const createPanelButton = document.getElementById('create-panel-button')
@@ -228,13 +227,17 @@ deleteCard = (card_to_delete_id) => {
   })
 }
 
+changeToReviewPanel = (e) => {
+	changePanel(e)
+	getDueCards()
+}
+
 create.addEventListener("click", createCards)
 save.addEventListener('click', sendCards)
 next.addEventListener("click", changeNewCard)
 previous.addEventListener("click", changeNewCard)
-getDueCardsButton.addEventListener("click", getDueCards)
 
-reviewPanelButton.addEventListener("click", changePanel)
+reviewPanelButton.addEventListener("click", changeToReviewPanel)
 createPanelButton.addEventListener("click", changePanel)
 settingsPanelButton.addEventListener("click", changePanel)
 
