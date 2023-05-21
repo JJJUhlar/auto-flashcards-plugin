@@ -1,3 +1,6 @@
+// local default connection is http://127.0.0.1:8080
+const connection = "http://127.0.0.1:8080"
+
 const question = document.getElementById('flashcardAnswer')
 const answer = document.getElementById('flashcardPrompt')
 const numCreatedCards = document.getElementById('numCreatedCards')
@@ -50,7 +53,7 @@ easyCard = () => {
 			if (due_cards.length === 0) {
 				finishedReviewSession()
 			} else {
-				fetch(`http://127.0.0.1:8080/update_card`, {
+				fetch(`${connection}/update_card`, {
 					method: "PATCH",
 					headers: {
 						"Content-Type": "application/json",
@@ -84,7 +87,7 @@ dunnoCard = () => {
 				})
 			})
 
-			fetch(`http://127.0.0.1:8080/reset_card`, {
+			fetch(`${connection}/reset_card`, {
 					method: "PATCH",
 					headers: {
 					"Content-Type": "application/json",
@@ -107,7 +110,7 @@ dunnoCard = () => {
 deleteCard = () => {
 	chrome.storage.session.get('due_cards')
 		.then(({due_cards}) => {
-			fetch(`http://127.0.0.1:8080/delete_card`, {
+			fetch(`${connection}/delete_card`, {
 					method: "PATCH",
 					headers: {
 						"Content-Type": "application/json",
@@ -178,7 +181,7 @@ showAnswer = () => {
 saveCards = () => {
 	chrome.storage.session.get("created_cards")
 		.then(({created_cards}) => {
-			fetch(`http://127.0.0.1:8080/save_cards`, {
+			fetch(`${connection}/save_cards`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -205,7 +208,7 @@ getDueCards = () => {
 			if (due_cards && due_cards.length > 0) {
 				refreshCurrentReviewCard()		
 			} else {
-				fetch(`http://127.0.0.1:8080/due_cards`, {
+				fetch(`${connection}/due_cards`, {
 					method: "GET",
 					headers: {
 						"Content-Type": "application/json",
@@ -262,7 +265,7 @@ refreshCurrentReviewCard = () => {
 }
 
 deleteCard = (card_to_delete_id) => {
-	fetch(`http://127.0.0.1:8080/delete_card`,{
+	fetch(`${connection}/delete_card`,{
 		method: "DELETE",
 		headers: { 
 			"Content-Type": "application/json",
