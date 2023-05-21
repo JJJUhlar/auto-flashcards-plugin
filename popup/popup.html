@@ -8,13 +8,14 @@
         <h1>Flashcards</h1>
         <button id="create-panel-button">Create</button>
         <button id="review-panel-button">Review</button>
-        <button id="settings-panel-button">Settings</button>
     </section>
 
   
     <section id="create-panel" hidden>
         <h2>Create Cards</h2>
+        <h3 id="numCards"></h3>
         <fieldset>
+
             <div>
                 <label for="flashcardPrompt">Question</label>
                 <input id="flashcardPrompt" placeholder="questions go here"/>
@@ -23,70 +24,30 @@
                 <label for="flashcardAnswer">Answer</label>
                 <input id="flashcardAnswer" placeholder="answers go here" />
             </div>
-            <h3 id="numCards"></h3>
+
+            <button id="previousCardButton" >previous</button>
+            <button id="nextCardButton" >next</button>
+            <button id="createButton" >Create Cards</button>
+            <button id="saveCardsButton" >Save Cards</button>
         </fieldset>
-        <button id="previousCardButton" >previous</button>
-        <button id="nextCardButton" >next</button>
-        <button id="createButton" >Create Cards</button>
-        <button id="saveCardsButton" >Save Cards</button>
-        <button id="RefreshQuestion">Regen Card</button>
-        <!-- <button id="RefreshQuestion">Review Page</button> -->
+
     </section>
     
-    <section id="review-panel" hidden>
+    <section id="review-panel">
         <h2>Review Cards</h2>
-        <div>
-            <fieldset>
-                <h3 >Question / Prompt</h3>
-                <p id="reviewCardPrompt"></p>
-                <h3 >Answer</h3>
-                <p id="reviewCardAnswer" hidden></p>
-                <button id="show_answer_btn">reveal answer</button>
-                <h4 id="numReviewCards"></h4>
+        <h4 id="numReviewCards"></h4>
+        <fieldset id="reviewInterface">
+            <h3 >Question / Prompt</h3>
+            <p id="reviewCardPrompt"></p>
+            <h3 >Answer</h3>
+            <p id="reviewCardAnswer" hidden></p>
+            <button id="show_answer_btn">reveal answer</button>
+            <div id="review_answer_btns" hidden>
                 <button id="easy_btn">Easy</button>
                 <button id="dunno_btn">Dunno</button>
                 <button id="delete_btn">Edit / Delete</button>
-            </fieldset>
-        </div>
-
-    </section>
-
-    <!-- Below should be checkboxes probably -->
-    
-    <section id="settings-panel" >
-        <h2>Settings</h2>
-        <fieldset>
-            <h3>Login</h3>
-            <label for="username">Username</label>
-            <input id="username" />
-            <label for="password">Password</label>
-            <input id="password" />
-        </fieldset>
-        <fieldset>
-            <label for="api_key">OpenAI Api Key</label>
-            <input id="api_key" />
+            </div>
         </fieldset>
     </section>
+
 </html>
-
-<!-- 
-<fieldset>
-    <legend>Select a Q type</legend>
-    <div>
-        <input type="radio" id="openText" name="questionType" value="openText" checked />
-        <label for="openText">open question</label> 
-    </div>
-    <div>
-        <input type="radio" id="multipleChoice" name="questionType" value="MCQ" />
-        <label for="multipleChoice">MCQ</label>
-    </div>
-    <div>
-        <input type="radio" id="trueFalse" name="questionType" value="trueFalse" />
-        <label for="trueFalse">true or false</label>
-    </div>
-    <div>
-        <input type="radio" id="cloze" name="questionType" value="cloze" />
-        <label for="cloze">cloze</label>
-    </div>
-</fieldset>
- -->
